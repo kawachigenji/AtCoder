@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+#define PI 3.14159265359
+#define NIL (-1)
+#define LL long long
+using namespace std;
+const int64_t MOD = 1e9 + 7;
+
+int main() {
+	int N, W;
+	cin >> N >> W;
+
+	vector<int> w(N), v(N);
+	for (int i = 0; i < N; i++) cin >> w.at(i) >> v.at(i);
+
+	vector<vector<int64_t>> dp(N, vector<int64_t>(W+1));
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j <= W; j++) {
+			if (!i) {
+				if (w.at(i) <= j) dp.at(i).at(j) = v.at(i);
+			}
+			else {
+				if (w.at(i) > j) dp.at(i).at(j) = dp.at(i - 1).at(j);
+				else dp.at(i).at(j) = max(dp.at(i - 1).at(j), dp.at(i - 1).at(j - w.at(i)) + v.at(i));
+			}
+		}
+	}
+
+	//for (int i = 0; i < N; i++) {
+	//	for (int j = 0; j <= W; j++) {
+	//		if (j) cout << ' ';
+	//		cout << dp.at(i).at(j);
+	//	}
+	//	cout << endl;
+	//}
+
+	cout << dp.back().back() << endl;
+}
